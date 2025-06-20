@@ -105,8 +105,8 @@ fn main() {
     let mut w_pred = 0.0; // predicted slope
     let mut b_pred = 0.0; // predicted intercept
     let mut log_epochs = Vec::new();  // store epoch numbers for plotting
-    let mut log_losses = Vec::new();  // store MSE losses for plotting
-    let mut log_losses_b = Vec::new(); // store MAE losses for plotting
+    let mut log_mse = Vec::new();  // store MSE losses for plotting
+    let mut log_mae = Vec::new(); // store MAE losses for plotting
 
     // Training loop
     for epoch in 1..epochs {
@@ -121,7 +121,7 @@ fn main() {
         // Log progress at specified intervals
         if epoch % log_interval == 0 || epoch == 1 || epoch == epochs {
             // Calculate Mean Squared Error loss
-            let loss = x.iter().zip(&y)
+            let mse_loss = x.iter().zip(&y)
                 .map(|(&xi, &yi)| {
                     let y_hat = w_pred * xi + b_pred;
                     (y_hat - yi).powi(2)
@@ -129,7 +129,7 @@ fn main() {
                 .sum::<f64>() / (x.len() as f64);
             
             // Calculate Mean Absolute Error loss
-            let loss_b = x.iter().zip(&y)
+            let mae_loss = x.iter().zip(&y)
                 .map(|(&xi, &yi)| {
                     let y_hat = w_pred * xi + b_pred;
                     (y_hat - yi).abs()
@@ -138,20 +138,20 @@ fn main() {
 
             // Store values for plotting
             log_epochs.push(epoch as f64);
-            log_losses.push(loss);
-            log_losses_b.push(loss_b);
+            log_mse.push(mse_loss);
+            log_mae.push(mae_loss);
 
             // Print progress
             println!(
-                "Epoch {:>4} | Loss: {:>10.6} | w: {:>8.4} | b: {:>8.4}",
-                epoch, loss, w_pred, b_pred
+                "Epoch {:>4} | MSE Loss: {:>10.6} | MAE Loss: {:>10.6} | w: {:>8.4} | b: {:>8.4}",
+                epoch, mse_loss, mae_loss, w_pred, b_pred
             );
         }
     }
 
     // Plot training progress
-    plot_scatter_ascii(&log_epochs, &log_losses, Some("Loss vs Epoch"));
-    plot_scatter_ascii(&log_epochs, &log_losses_b, Some("Loss B vs Epoch"));
+    plot_scatter_ascii(&log_epochs, &log_mse, Some("MSE Loss Epoch"));
+    plot_scatter_ascii(&log_epochs, &log_mae, Some("MAE Loss vs Epoch"));
 }
 
 // Calculate gradient for weight parameter (slope)

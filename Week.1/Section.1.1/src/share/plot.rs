@@ -2,7 +2,7 @@ use term_size::dimensions;
 
 pub fn plot_scatter_ascii(xs: &[f64], ys: &[f64], title: Option<&str>) {
     let (term_width, _) = dimensions().unwrap_or((80, 24));
-    let width = term_width.saturating_sub(10); // room for labels
+    let width = term_width.saturating_sub(10) - 5; // room for labels
     let height = 20;
 
     let x_min = xs.iter().cloned().fold(f64::INFINITY, f64::min);
