@@ -5,7 +5,7 @@ use regex::Regex;
 use std::path::PathBuf;
 
 mod shared;
-use shared::plot_scatter_ascii;
+use shared::{plot, PlotType};
 
 // Define structure for CSV data points - each row contains x,y coordinates
 // Deserialize trait allows automatic parsing from CSV
@@ -150,8 +150,8 @@ fn main() {
     }
 
     // Plot training progress
-    plot_scatter_ascii(&log_epochs, &log_mse, Some("MSE Loss Epoch"));
-    plot_scatter_ascii(&log_epochs, &log_mae, Some("MAE Loss vs Epoch"));
+    plot(PlotType::Line, &log_epochs, &log_mse, Some("MSE Loss Epoch"));
+    plot(PlotType::Line, &log_epochs, &log_mae, Some("MAE Loss vs Epoch"));
 }
 
 // Calculate gradient for weight parameter (slope)
