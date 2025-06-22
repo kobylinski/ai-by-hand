@@ -15,11 +15,13 @@ mod share;
 
 fn main() {
     // Get slope value from command line arguments or generate a random one
-    let w = std::env::args().nth(2)
+    // First argument after the program name
+    let w = std::env::args().nth(1)
       .and_then(|s| s.parse::<f64>().ok())
       .unwrap_or_else(|| rand::random_range(1.0..10.0));
 
     // Get bias value from command line arguments or generate a random one
+    // Second argument after the program name
     let b = std::env::args().nth(2)
       .and_then(|s| s.parse::<f64>().ok())
       .unwrap_or_else(|| rand::random::<f64>() * 2.0 - 1.0);
