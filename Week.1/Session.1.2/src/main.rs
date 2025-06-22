@@ -5,7 +5,7 @@ use csv::ReaderBuilder;  // For CSV file handling
 
 // Import local plotting module
 mod share;
-use share::plot_scatter_ascii;
+use share::{plot, PlotType};
 
 // Define structure for CSV data points - each row contains x,y coordinates
 #[derive(Debug, Deserialize)]
@@ -81,7 +81,7 @@ fn main() {
     }
 
     // Plot the relationship between weights and mean squared errors
-    plot_scatter_ascii(&weights, &means, Some("Mean Squared Error vs Weight"));
+    plot(PlotType::Line,&weights, &means, Some("Mean Squared Error vs Weight"));
     
     // Find and print the weight that resulted in the lowest MSE
     println!("Best weight: {}", weights[means.iter().enumerate().min_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap()).unwrap().0]);
