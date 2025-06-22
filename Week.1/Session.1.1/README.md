@@ -21,10 +21,11 @@ cargo build
 
 ## Running the Application
 
-To run the program:
+To run the program (optionally specifying slope `w` and bias `b`):
 ```bash
-cargo run
+cargo run -- [w] [b]
 ```
+If `w` and `b` are omitted, random values are used.
 
 ## Output
 
